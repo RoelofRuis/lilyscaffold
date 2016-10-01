@@ -1,0 +1,13 @@
+\version "@version!"
+
+global = {
+   \time @time!
+   \tempo @tempo!
+   \compressFullBarRests
+   \numericTimeSignature
+   \set Score.markFormatter = #format-mark-box-letters
+}
+
+globalkey = {
+   \key @key!
+}
