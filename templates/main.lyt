@@ -9,21 +9,21 @@
   tagline  = #ff
 }
 
-@instrument:
-\include "@instrument!.ly"
-!instrument:
+@instruments:
+\include "@instrumentName!.ly"
+!instruments:
 
 \book {
   
   \score {
     <<
-      @instrument:
+      @instruments:
       \new Staff {
-        \set Staff.instrumentName = #"@instrumentName"
+        \set Staff.instrumentName = #"@instrumentName!"
         \set Staff.midiInstrument = #"@midiInstrument!"
-        \@instrument!Staff
+        \@instrumentName!Staff
       }
-      !instrument:
+      !instruments:
     >>
   
     \layout {}

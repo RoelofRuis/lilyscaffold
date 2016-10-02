@@ -12,26 +12,45 @@ class Filler():
     def processLine(self, line):
         raise NotImplementedError('Fillers should implement process line.')
 
-# Replaces simple statements from a list of replacements.
-class SimpleReplacementFiller(Filler):
+class LoopingReplacementFiller(Filler):
     def __init__(self, replacements = {}):
         self.replacements = replacements
-            
-    def processLine(self, line):
-        matches = re.findall(r'@([a-z_]+?)!', line)
+
+    def fill(self, lines):
+        return self.fillInner(lines, self.replacements)
+
+    def fillInner(self, lines, replacements):
+        linesOut  = []
+        loop      = False
+        loopLines = []
+        for line in lines:
+            if loop:
+                noloop = re.search(r'!([a-zA-Z_]+?):', line)
+                if noloop:
+                    if loop in replacements:
+                        for loopReplacement in replacements[loop]:
+                            linesOut += self.fillInner(loopLines, loopReplacement)
+                    loop      = False
+                    loopLines = []
+                else:
+                    loopLines.append(line)
+            else:
+                loopName = re.search(r'@([a-zA-Z_]+?):', line)
+                if not loopName:
+                    linesOut.append(self.processLine(line, replacements))
+                else:
+                    loop = loopName.group(1)
+        return linesOut
+
+    def processLine(self, line, replacements):
+        matches = re.findall(r'@([a-zA-Z_]+?)!', line)
         for match in matches:
-            replacement = self.findReplacement(match)
-            if replacement:
-                line = re.sub(r'@' + match + '!', replacement, line)
+            if match in replacements:
+                line = re.sub(r'@' + match + '!', replacements[match], line)
         return line
-            
-    def findReplacement(self, item):
-        if item in self.replacements:
-            return self.replacements[item]
-        else:
-            return False
-            
+
+
 # Cleans up simple statements
 class CleanupFiller(Filler):
     def processLine(self, line):
-        return re.sub(r'@([a-z_]+?)!', '', line)
+        return re.sub(r'@([a-zA-Z_]+?)!', '', line)
