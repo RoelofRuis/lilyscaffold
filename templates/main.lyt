@@ -1,0 +1,33 @@
+\version "@version!"
+
+\header {
+  title    = "@title!"
+  subtitle = "@subtitle!"
+  composer = "@composer!"
+  meter    = "@meter!"
+  piece    = "@piece!"
+  tagline  = #ff
+}
+
+@instrument:
+\include "@instrument!.ly"
+!instrument:
+
+\book {
+  
+  \score {
+    <<
+      @instrument:
+      \new Staff {
+        \set Staff.instrumentName = #"@instrumentName"
+        \set Staff.midiInstrument = #"@midiInstrument!"
+        \@instrument!Staff
+      }
+      !instrument:
+    >>
+  
+    \layout {}
+    \midi {}
+  }
+ 
+}
