@@ -1,23 +1,18 @@
-import sys
 import time
-import logging
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
-
-class TestHandler(FileSystemEventHandler):
-    def on_any_event(self, event):
-        print event
+from autobuild.handler import *
 
 if __name__ == "__main__":
     path = 'out/.'
-    event_handler = TestHandler()
+    event_handler = LilypondBuildHandler()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
+    print "The lilypond autobuilder is started and listening for changes!"
     try:
         while True:
-            time.sleep(1)
+            time.sleep(5)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
-                
+    print "Goodbye!"
