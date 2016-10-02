@@ -1,0 +1,28 @@
+\version "@version!"
+
+\include "options.ly"
+
+@instrument! = {
+  
+}
+
+@instrument!Staff = {
+  \global
+  \globalkey
+  \set Staff.instrumentName = #"@instrumentName!"
+  \clef @clef!
+  <<
+    \@instrument!
+  >>
+}
+
+\book {
+  \bookOutputName "@instrument!"
+    \score {
+    
+    \new Staff = "@instrument!" \@instrument!Staff
+    
+    \layout {}
+    \midi {}
+  }
+}
