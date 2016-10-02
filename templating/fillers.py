@@ -1,4 +1,5 @@
 from os.path import join
+from subprocess import Popen, PIPE
 import re
 
 class Filler():
@@ -49,6 +50,27 @@ class LoopingReplacementFiller(Filler):
                 line = re.sub(r'@' + match + '!', replacements[match], line)
         return line
 
+class VersionFiller(Filler):
+    def __init__(self):
+        process = Popen(["lilypond", "--version"], stdout=PIPE)
+        (output, err) = process.communicate()
+        exit_code = process.wait()
+        if exit_code == 0:
+            versionMatch = re.search(r'GNU LilyPond ([0-9\.]+)', output)
+            if versionMatch:
+                self.version = versionMatch.group(1)
+        else:
+            self.version = False
+
+    def processLine(self, line):
+        match = re.search(r'\\version', line)
+        if match:
+            if self.version:
+                return '\\version "' + self.version + "\"\n"
+            else:
+                return ''
+        else:
+            return line
 
 class CleanupFiller(Filler):
     def processLine(self, line):

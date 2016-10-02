@@ -9,6 +9,7 @@ class LilypondFactory():
             TemplateFileWriter(out)
         )
         pipe.setFillers([
+            VersionFiller(),
             LoopingReplacementFiller(replacements),
             CleanupFiller(),
         ])
