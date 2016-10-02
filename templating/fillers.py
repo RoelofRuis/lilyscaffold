@@ -1,7 +1,6 @@
 from os.path import join
 import re
 
-# Defines a basic filler
 class Filler():
     def fill(self, lines):
         linesOut = []
@@ -11,6 +10,7 @@ class Filler():
 
     def processLine(self, line):
         raise NotImplementedError('Fillers should implement process line.')
+
 
 class LoopingReplacementFiller(Filler):
     def __init__(self, replacements = {}):
@@ -50,7 +50,10 @@ class LoopingReplacementFiller(Filler):
         return line
 
 
-# Cleans up simple statements
 class CleanupFiller(Filler):
     def processLine(self, line):
-        return re.sub(r'@([a-zA-Z_]+?)!', '', line)
+        match = re.search(r'@([a-zA-Z_]+?)!', line)
+        if match:
+            return ''
+        else:
+            return line
