@@ -7,7 +7,7 @@ class TemplateInput():
 
 class TemplateFileReader(TemplateInput):
     def __init__(self, templateName):
-        self.templatePath = join('templates\\', templateName + '.lyt')
+        self.templatePath = join('templates\\files\\', templateName + '.lyt')
 
     def getLines(self):
         with open(self.templatePath, 'r') as template:
