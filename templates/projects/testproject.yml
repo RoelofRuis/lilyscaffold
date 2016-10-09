@@ -1,0 +1,19 @@
+general:
+    title:    ''
+    subtitle: ''
+    composer: ''
+options:
+    time:  ''
+    tempo: ''
+    key:   ''
+instruments: 
+-
+   instrument:     'violin'
+   clef:           'treble'
+   instrumentName: 'violin'
+-
+   instrument:     'guitar'
+   clef:           'treble'
+   instrumentName: 'guitar'
+meta:
+    sourceFolder: 'src'
