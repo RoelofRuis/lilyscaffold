@@ -1,30 +1,20 @@
+import argparse
 from templating.factory import *
+import io
 
-factory = LilypondFactory()
+def parseArgs():
+    parser = argparse.ArgumentParser(description='Setup lilypond projects and files.')
+    parser.add_argument('project', metavar='Project', help='the name of the project', type=str)
+    parser.add_argument('-t', nargs=1, metavar='Template', help='the project template', type=str)
+    parser.add_argument('-b', action='store_true', help='build the project')
+    return parser.parse_args()
 
-general = {
-    'title'       : 'Title',
-    'subtitle'    : 'Subtitle',
-    'composer'    : 'Roelof Ruis',
-}
-
-options = {
-    'time'    : '4/4',
-    'tempo'   : '4 = 120',
-    'key'     : 'c \minor',
-}
-
-instruments = [
-    {
-        'instrument'     : 'violin',
-        'clef'           : 'treble',
-        'instrumentName' : 'violin',
-    },
-    {
-        'instrument'     : 'guitar',
-        'clef'           : 'treble',
-        'instrumentName' : 'guitar',
-    }
-]
-
-factory.createProject(general, options, instruments)
+if __name__ == '__main__':
+    args = parseArgs()
+    if args.t is not None and args.t[0] in getAvailableProjects():
+        projectWriter = ProjectFileWriter(args.project)
+        projectWriter.setupProjectStructure()
+        projectWriter.setupTemplate(args.t[0])
+    if args.b:
+        factory = LilypondFactory(args.project)
+        factory.buildProject()
