@@ -3,9 +3,10 @@ from shutil import copyfile
 from os.path import join
 from os import walk
 from yaml import load
+from config import GLOBAL_CONFIG
 
 def getAvailableProjects():
-    (_,_, files) = walk('templates\\projects\\').next()
+    (_,_, files) = walk(GLOBAL_CONFIG.get('projectTemplateFolder', 'templates\\projects\\')).next()
     filenames = [os.path.splitext(f)[0] for f in files]
     return filenames
 
@@ -16,7 +17,11 @@ class ProjectInput():
 
 class ProjectConfigReader(ProjectInput):
     def __init__(self, projectName):
-        self.projectConfig = join('out\\', projectName, 'meta\\', 'config.yml')
+        self.projectConfig = join(
+            GLOBAL_CONFIG.get('projectFolder', 'out\\'), 
+            projectName, 
+            GLOBAL_CONFIG.get('metaFolderName', 'meta') + '\\', 
+            GLOBAL_CONFIG.get('projectConfigFileName', 'config.yml'))
 
     def getConfig(self):
         with open(self.projectConfig, 'r') as f:
@@ -29,7 +34,7 @@ class TemplateInput():
 
 class TemplateFileReader(TemplateInput):
     def __init__(self, templateName):
-        self.templatePath = join('templates\\files\\', templateName + '.lyt')
+        self.templatePath = join(GLOBAL_CONFIG.get('fileTemplateFolder', 'templates\\files\\'), templateName + '.lyt')
 
     def getLines(self):
         with open(self.templatePath, 'r') as template:
@@ -53,15 +58,23 @@ class ProjectFileWriter(ProjectWriter):
             os.makedirs(folder)
 
     def setupProjectStructure(self):
-        projectFolder = join('out\\', self.projectName)
+        projectFolder = join(GLOBAL_CONFIG.get('projectFolder', 'out\\'), self.projectName)
         self._setupFolderIfNotExists(projectFolder)
-        self._setupFolderIfNotExists(join(projectFolder, 'meta'))
-        self._setupFolderIfNotExists(join(projectFolder, 'src'))
-        self._setupFolderIfNotExists(join(projectFolder, 'out'))
+        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('metaFolderName', 'meta')))
+        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('metaFolderName', 'src')))
+        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('metaFolderName', 'out')))
 
     def setupTemplate(self, templateName):
-        src = join('templates\\projects\\', templateName + '.yml')
-        dst = join('out\\', self.projectName, 'meta\\', 'config.yml')
+        src = join(
+            GLOBAL_CONFIG.get('projectTemplateFolder','templates\\projects\\'), 
+            templateName + '.yml'
+        )
+        dst = join(
+            GLOBAL_CONFIG.get('projectFolder', 'out\\'), 
+            self.projectName, 
+            GLOBAL_CONFIG.get('metaFolderName', 'meta') + '\\', 
+            GLOBAL_CONFIG.get('projectConfigFileName', 'config.yml')
+        )
         copyfile(src, dst)
 
 class TemplateOutput():
@@ -73,6 +86,6 @@ class TemplateFileWriter(TemplateOutput):
         self.targetPath = targetPath
 
     def outputLines(self, lines):
-        with open(join('out\\', self.targetPath), 'w') as target:
+        with open(join(GLOBAL_CONFIG.get('projectFolder', 'out\\'), self.targetPath), 'w') as target:
             for line in lines:
                 target.write(line)

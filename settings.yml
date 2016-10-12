@@ -1,0 +1,7 @@
+projectFolder:         'out\'
+metaFolderName:        '.meta'
+sourceFolderName:      'src'
+outputFolderName:      'out'
+fileTemplateFolder:    'templates\files\'
+projectTemplateFolder: 'templates\projects'
+projectConfigFileName: 'config.yml'
