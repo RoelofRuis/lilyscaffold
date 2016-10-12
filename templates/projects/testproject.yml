@@ -8,12 +8,12 @@ options:
     key:   ''
 instruments: 
 -
-   instrument:     'violin'
-   clef:           'treble'
-   instrumentName: 'violin'
+    instrument:     'violin'
+    clef:           'treble'
+    instrumentName: 'violin'
 -
-   instrument:     'guitar'
-   clef:           'treble'
-   instrumentName: 'guitar'
+    instrument:     'guitar'
+    clef:           'treble'
+    instrumentName: 'guitar'
 meta:
     sourceFolder: 'src'
