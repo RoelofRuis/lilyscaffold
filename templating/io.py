@@ -18,9 +18,9 @@ class ProjectInput():
 class ProjectConfigReader(ProjectInput):
     def __init__(self, projectName):
         self.projectConfig = join(
-            GLOBAL_CONFIG.get('projectFolder', 'out\\'), 
-            projectName, 
-            GLOBAL_CONFIG.get('metaFolderName', 'meta') + '\\', 
+            GLOBAL_CONFIG.get('projectFolder', 'out\\'),
+            projectName,
+            GLOBAL_CONFIG.get('metaFolderName', 'meta') + '\\',
             GLOBAL_CONFIG.get('projectConfigFileName', 'config.yml'))
 
     def getConfig(self):
@@ -66,20 +66,20 @@ class ProjectFileWriter(ProjectWriter):
 
     def setupTemplate(self, templateName):
         src = join(
-            GLOBAL_CONFIG.get('projectTemplateFolder','templates\\projects\\'), 
+            GLOBAL_CONFIG.get('projectTemplateFolder','templates\\projects\\'),
             templateName + '.yml'
         )
         dst = join(
-            GLOBAL_CONFIG.get('projectFolder', 'out\\'), 
-            self.projectName, 
-            GLOBAL_CONFIG.get('metaFolderName', 'meta') + '\\', 
+            GLOBAL_CONFIG.get('projectFolder', 'out\\'),
+            self.projectName,
+            GLOBAL_CONFIG.get('metaFolderName', 'meta') + '\\',
             GLOBAL_CONFIG.get('projectConfigFileName', 'config.yml')
         )
         copyfile(src, dst)
 
 class TemplateOutput():
     def outputLines(self):
-        raise NotImplementedError('Template Output should implement outputLines() method');
+        raise NotImplementedError('Template Output should implement outputLines() method')
         
 class TemplateFileWriter(TemplateOutput):
     def __init__(self, targetPath):
