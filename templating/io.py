@@ -54,9 +54,7 @@ class ProjectFileWriter(ProjectWriter):
         self.projectName = projectName
 
     def _setupFolderIfNotExists(self, folder):
-        print folder
         if not os.path.exists(folder):
-            print folder
             os.makedirs(folder)
 
     def setupProjectStructure(self):
