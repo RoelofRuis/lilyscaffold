@@ -54,15 +54,17 @@ class ProjectFileWriter(ProjectWriter):
         self.projectName = projectName
 
     def _setupFolderIfNotExists(self, folder):
+        print folder
         if not os.path.exists(folder):
+            print folder
             os.makedirs(folder)
 
     def setupProjectStructure(self):
         projectFolder = join(GLOBAL_CONFIG.get('projectFolder', 'out\\'), self.projectName)
         self._setupFolderIfNotExists(projectFolder)
         self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('metaFolderName', 'meta')))
-        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('metaFolderName', 'src')))
-        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('metaFolderName', 'out')))
+        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('sourceFolderName', 'src')))
+        self._setupFolderIfNotExists(join(projectFolder, GLOBAL_CONFIG.get('outputFolderName', 'out')))
 
     def setupTemplate(self, templateName):
         src = join(
