@@ -1,5 +1,6 @@
 from pipes import *
-from io import *
+from io.input import *
+from io.output import *
 from fillers import *
 from os.path import join
 

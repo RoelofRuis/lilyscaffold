@@ -1,6 +1,6 @@
 import argparse
 from templating.factory import *
-import io
+from io import read
 
 def parseArgs():
     parser = argparse.ArgumentParser(description='Setup lilypond projects and files.')
@@ -11,7 +11,7 @@ def parseArgs():
 
 if __name__ == '__main__':
     args = parseArgs()
-    if args.t is not None and args.t[0] in getAvailableProjects():
+    if args.t is not None and args.t[0] in read.getAvailableProjects():
         projectWriter = ProjectFileWriter(args.project)
         projectWriter.setupProjectStructure()
         projectWriter.setupTemplate(args.t[0])
